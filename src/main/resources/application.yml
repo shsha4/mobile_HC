@@ -1,0 +1,36 @@
+#tomcat port setting
+server:
+  port: 8081
+---
+
+spring:
+
+  freemarker:
+    cache: false
+
+  #static resources auto update
+  devtools:
+    livereload:
+      enabled: true
+
+  #thymeleaf setting
+  thymeleaf:
+    prefix: classpath:/templates/
+    view-names: thymeleaf/*
+    suffix: .html
+    check-template-location: true
+    cache: false
+
+  #datasource setting
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/mps
+    username: root
+    password: root
+---
+
+#mybatis setting
+mybatis:
+  type-aliases-package: com.mat.luxmatic2_hc.model
+  mapper-locations: mybatis/**/*Mapper.xml
+---

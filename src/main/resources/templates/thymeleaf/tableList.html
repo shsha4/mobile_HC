@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>List - Table</title>
+    <th:block th:replace="fragment/cdn :: fragment-cdn"></th:block>
+</head>
+<body>
+    <div id="tableLayout">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>관리 번호</td>
+                    <td>폴 번호</td>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="lamp :${lampList}">
+                    <tr>
+                        <td th:text="${lamp.management_num}"/>
+                        <td>
+                            <a th:href="|/Luxmatic2_HC/detailLamp/${lamp.telegraph_pole_num}|" target="_self" th:text="${lamp.telegraph_pole_num}"/>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div align="center">
+        <ul class="pagination">
+            <li th:if="${pm.prev}">
+                <a th:href="|/Luxmatic2_HC/tableList${pm.makeSearch(pm.startPage - 1)}|" target="_self">이전</a>
+            </li>
+            <th:block th:each="page : ${#numbers.sequence(pm.startPage, pm.endPage)}">
+                <li th:classappend="${pm.cri.page == page ? 'active' : ''}">
+                    <a th:href="|/Luxmatic2_HC/tableList${pm.makeSearch(page)}|" th:text="${page}" target="_self"/>
+                </li>
+            </th:block>
+            <li th:if="${pm.next && pm.endPage > 0}">
+                <a th:href="|/Luxmatic2_HC/tableList${pm.makeSearch(pm.endPage + 1)}|" target="_self">다음</a>
+            </li>
+        </ul>
+    </div>
+    <div id="serarchForm" style="position: absolute; width: 100%; padding: 1%; text-align: center;">
+        <form method="get" action="/Luxmatic2_HC/tableList">
+            <select id="category" class="form-control" name="category" style="display: inline; width: 120px;">
+                <option value="all">전체</option>
+                <option value="dong">면,읍</option>
+                <option value="dongSub">리</option>
+                <option value="poleNum">폴번호</option>
+            </select>
+            <select id="dongInfo" name="getKey" class="form-control" style="width: 120px; display: none;">
+                <option th:each="dongInfo,count : ${dongInfo}" th:value="${count.count}" th:text="${dongInfo}"/>
+            </select>
+            <select id="dongSubInfo" name="getKey" class="form-control" style="width: 120px; display: none;">
+                <option th:each="subInfo,count : ${dongSubInfo}" th:value="${count.count}" th:text="${subInfo}"/>
+            </select>
+            <input id="textInput" name="getKey" type="text" class="form-control" placeholder="검색" style="width: 120px; display: none;">
+            <input type="hidden" name="page" value="1"/>
+            <button id="searchBtn" class="btn btn-sm btn-primary" onclick="submit()">검색</button>
+        </form>
+    </div>
+    <div style="position: absolute; bottom: 1%; padding: 2%; width: 100%; text-align: right;">
+        <button class="btn btn-success" onclick="location.href='/Luxmatic2_HC/mapList'">지도로 보기</button>
+    </div>
+<script th:inline="javascript">
+
+    let category = /*[[ ${pm.cri.category} ]]*/ "";
+    let keyword = /*[[ ${pm.cri.keyword} ]]*/ "";
+    let lampList = /*[[ ${lampList} ]]*/ "";
+
+    /* css 영역 */
+    if(category != null || category != "") {
+        switch (category) {
+            case 'all':
+                $('#category').val(category);
+                $('#dongInfo').hide();
+                $('#dongSubInfo').hide();
+                $('#textInput').hide();
+                break;
+            case 'dong':
+                $('#category').val(category);
+                $('#dongInfo').show();
+                $('#dongInfo').val(keyword);
+                $('#dongInfo').css('display', 'inline');
+                $('#dongSubInfo').hide();
+                $('#textInput').hide();
+                break;
+            case 'dongSub':
+                $('#category').val(category);
+                $('#dongInfo').hide();
+                $('#dongSubInfo').show();
+                $('#dongSubInfo').val(keyword);
+                $('#dongSubInfo').css('display', 'inline');
+                $('#textInput').hide();
+                break;
+            case 'poleNum':
+                $('#category').val(category);
+                $('#dongInfo').hide();
+                $('#dongSubInfo').hide();
+                $('#textInput').show();
+                $('#textInput').val(keyword);
+                $('#textInput').css('display', 'inline');
+                break;
+        }
+    }
+
+    $('#category').on('change', () => {
+        let category = $('#category option:selected').val();
+        switch (category) {
+            case 'all':
+                $('#dongInfo').hide();
+                $('#dongSubInfo').hide();
+                $('#textInput').hide();
+                break;
+            case 'dong':
+                $('#dongInfo').show();
+                $('#dongInfo').css('display', 'inline');
+                $('#dongSubInfo').hide();
+                $('#textInput').hide();
+                break;
+            case 'dongSub':
+                $('#dongInfo').hide();
+                $('#dongSubInfo').show();
+                $('#dongSubInfo').css('display', 'inline');
+                $('#textInput').hide();
+                break;
+            case 'poleNum':
+                $('#dongInfo').hide();
+                $('#dongSubInfo').hide();
+                $('#textInput').show();
+                $('#textInput').css('display', 'inline');
+                break;
+        }
+    });
+</script>
+</body>
+</html>

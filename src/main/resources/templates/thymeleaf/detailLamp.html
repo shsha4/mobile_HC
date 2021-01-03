@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lamp - Detail</title>
+    <th:block th:replace="fragment/cdn :: fragment-cdn"></th:block>
+</head>
+<body>
+    <div id="content">
+        <table class="table table-bordered">
+            <thead>
+                <tr align="center">
+                    <td colspan="2">보안등 정보</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>관리 번호</td>
+                    <td th:text="${lamp.management_num}"></td>
+                </tr>
+                    <td>주 소</td>
+                    <td th:text="${lamp.dongInfo} + ' ' + ${lamp.dongSubInfo} + ' ' + ${lamp.install_street_address}"></td>
+                <tr>
+                    <td>폴 번호</td>
+                    <td th:text="${lamp.telegraph_pole_num}"></td>
+                </tr>
+                    <td>좌표</td>
+                    <td th:text="${lamp.latitude} + ', ' + ${lamp.longitude}"></td>
+                <tr>
+                    <td>타입</td>
+                    <td th:text="${lamp.pole_type}"></td>
+                </tr>
+                    <td>소비 전력</td>
+                    <td th:text="${lamp.wattage} + 'W'"></td>
+                <tr>
+                    <td>한전주 고유 번호</td>
+                    <td th:text="${lamp.kepco_num == ''? '-' : lamp.kepco_num}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <!-- 캐러셀 추가 -->
+        </div>
+    </div>
+</body>
+</html>

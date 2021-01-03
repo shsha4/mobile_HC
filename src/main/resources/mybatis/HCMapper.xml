@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mat.luxmatic2_hc.dao.HCDAO">
+    <resultMap id="SecurityVO" type="SecurityLightVO">
+        <result column="dong_id" property="dong_id"/>
+        <result column="dong_sub_id" property="dong_sub_id"/>
+        <result column="management_num" property="management_num"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="install_street_address" property="install_street_address"/>
+        <result column="telegraph_pole_num" property="telegraph_pole_num"/>
+        <result column="pole_type" property="pole_type"/>
+        <result column="wattage" property="wattage"/>
+        <result column="search_date" property="search_date"/>
+        <result column="kepco_num" property="kepco_num"/>
+        <result column="thumbnail_photo2" property="thumbnail_photo2"/>
+        <result column="thumbnail_photo3" property="thumbnail_photo3"/>
+        <result column="thumbnail_photo4" property="thumbnail_photo4"/>
+        <collection property="dongInfo" column="dong_id" javaType="String" select="getDong" />
+        <collection property="dongSubInfo" column="dong_sub_id" javaType="String" select="getSubDong" />
+    </resultMap>
+
+    <select id="getDong" parameterType="String" resultType="String">
+        SELECT dong_name FROM lms_dong_info
+        WHERE dong_id = #{dong_id};
+    </select>
+
+    <select id="getSubDong" parameterType="String" resultType="String">
+        SELECT dong_sub_name FROM lms_dong_sub_info
+        WHERE dong_sub_id = #{dong_usb_id};
+    </select>
+
+    <select id="getAllList" resultMap="SecurityVO" parameterType="Criteria">
+        SELECT * FROM lms_securitylight
+        <include refid="search" />
+    </select>
+
+    <select id="getTableList" resultMap="SecurityVO" parameterType="Criteria">
+        SELECT * FROM lms_securitylight
+        <include refid="search" />
+        LIMIT #{pageStart}, #{perPageNum};
+    </select>
+    
+    <select id="getLampCount" resultType="int" parameterType="Criteria">
+        SELECT COUNT(*) FROM lms_securitylight
+        <include refid="search" />
+    </select>
+
+    <select id="getDongInfo" resultType="String">
+        SELECT dong_name FROM lms_dong_info;
+    </select>
+
+    <select id="getDongSubInfo" resultType="String">
+        SELECT dong_sub_name FROM lms_dong_sub_info;
+    </select>
+
+    <select id="getLampInfo" resultMap="SecurityVO" parameterType="String">
+        SELECT * FROM lms_securitylight
+        WHERE telegraph_pole_num = #{pole_num};
+    </select>
+
+    <sql id="search">
+        <if test='!category.equals("all")'>
+            <if test='category.equals("dong")'>
+                WHERE dong_id = #{keyword}
+            </if>
+            <if test='category.equals("dongSub")'>
+                WHERE dong_sub_id = #{keyword}
+            </if>
+            <if test='category.equals("poleNum")'>
+                WHERE telegraph_pole_num LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </if>
+    </sql>
+</mapper>
