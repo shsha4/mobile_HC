@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("Luxmatic2_HC/")
 @Slf4j
 public class MainController {
 

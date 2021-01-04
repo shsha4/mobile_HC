@@ -10,7 +10,7 @@
 <div>
     <div id="content">
         <div id="serarchForm" style="position: absolute; z-index: 5; width: 100%; padding: 1%;">
-            <form method="get" action="/Luxmatic2_HC/mapList">
+            <form method="get" action="./mapList">
                 <select id="category" class="form-control" name="category" style="display: inline; width: 120px;">
                     <option value="all">전체</option>
                     <option value="dong">면,읍</option>
@@ -28,7 +28,7 @@
             </form>
         </div>
         <div id="map" style="width:100%; height: 520px;"></div>
-        <button id="tableList" class="btn btn-success" onclick="location.href='/Luxmatic2_HC/tableList'" style="position: absolute; z-index: 3; right: 1%; bottom: 1%; margin:1%;">표로 보기</button>
+        <button id="tableList" class="btn btn-success" onclick="location.href='./tableList'" style="position: absolute; z-index: 3; right: 1%; bottom: 1%; margin:1%;">표로 보기</button>
         <div class="container" style="border: 2px dashed; margin-top:3px; height: 18%; position: absolute;">
             <div style="padding-top: 8%; padding-left:4%;">마커를 클릭하면 해당 보안등의 상세페이지로 이동합니다.</div>
         </div>
@@ -133,7 +133,7 @@
         let pole_num = lampList[index].telegraph_pole_num;
         kakao.maps.event.addListener(markers[index], 'click', function () {
             //detail page 이동 코드 추가
-            location.href = "/Luxmatic2_HC/detailLamp/" + pole_num;
+            location.href = "./detailLamp/" + pole_num;
         });
     }
 </script>
