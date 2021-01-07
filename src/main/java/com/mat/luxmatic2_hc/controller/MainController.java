@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -41,7 +43,7 @@ public class MainController {
         return "thymeleaf/mapList";
     }
 
-    @GetMapping("tableList")
+    @GetMapping("main")
     public String tListPage(Model model, @ModelAttribute("Criteria") Criteria cri) {
 
         if(cri.getCategory() == null) {
@@ -68,5 +70,16 @@ public class MainController {
         SecurityLightVO lamp = service.getLampInfo(pole_num);
         model.addAttribute("lamp", lamp);
         return "thymeleaf/detailLamp";
+    }
+
+    @PostMapping("login.do")
+    public @ResponseBody boolean loginAction(HttpServletRequest req, @RequestParam("id") String id, @RequestParam("pw") String pw) {
+        if(id.equals("mat") && pw.equals("mat999")) {
+            HttpSession session = req.getSession(true);
+            session.setAttribute("user", "mat");
+            session.setMaxInactiveInterval(60 * 1440);
+            return true;
+        }
+        return false;
     }
 }

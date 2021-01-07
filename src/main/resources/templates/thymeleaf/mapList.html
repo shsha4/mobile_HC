@@ -9,13 +9,14 @@
 <body>
 <div>
     <div id="content">
+        <th:block th:replace="fragment/cdn :: fragment-login"></th:block>
         <div id="serarchForm" style="position: absolute; z-index: 5; width: 100%; padding: 1%;">
             <form method="get" action="./mapList">
                 <select id="category" class="form-control" name="category" style="display: inline; width: 120px;">
                     <option value="all">전체</option>
                     <option value="dong">면,읍</option>
                     <option value="dongSub">리</option>
-                    <option value="poleNum">폴번호</option>
+                    <option value="poleNum">관리번호</option>
                 </select>
                 <select id="dongInfo" name="getKey" class="form-control" style="width: 120px; display: none;">
                     <option th:each="dongInfo,count : ${dongInfo}" th:value="${count.count}" th:text="${dongInfo}"/>
@@ -27,17 +28,15 @@
                 <button id="searchBtn" class="btn btn-sm btn-primary" onclick="submit()">검색</button>
             </form>
         </div>
-        <div id="map" style="width:100%; height: 520px;"></div>
-        <button id="tableList" class="btn btn-success" onclick="location.href='./tableList'" style="position: absolute; z-index: 3; right: 1%; bottom: 1%; margin:1%;">표로 보기</button>
-        <div class="container" style="border: 2px dashed; margin-top:3px; height: 18%; position: absolute;">
-            <div style="padding-top: 8%; padding-left:4%;">마커를 클릭하면 해당 보안등의 상세페이지로 이동합니다.</div>
-        </div>
+        <div id="map" style="width:100%; height: 100%; display: initial; position:absolute;"></div>
+        <button id="tableList" class="btn btn-success" onclick="location.href='./main'" style="position: absolute; z-index: 3; right: 1%; bottom: 1%; margin:1%;">리스트로 보기</button>
     </div>
 </div>
 <script th:inline="javascript">
     let category = /*[[ ${cri.category} ]]*/ "";
     let keyword = /*[[ ${cri.keyword} ]]*/ "";
     let lampList = /*[[ ${lampList} ]]*/ "";
+    let user = /*[[ ${session.user} ]]*/ "";
     let markers = [];
 
     if(category != null || category != "") {
@@ -125,7 +124,7 @@
             markerEvent(i);
         }
 
-        map.setCenter(markers[markers.length - 1].getPosition());
+        map.setCenter(markers[0].getPosition());
 
     });
 
@@ -137,5 +136,6 @@
         });
     }
 </script>
+<script src="./js/loginAction.js"></script>
 </body>
 </html>

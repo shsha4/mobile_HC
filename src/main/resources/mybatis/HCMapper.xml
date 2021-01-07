@@ -68,7 +68,7 @@
                 WHERE dong_sub_id = #{keyword}
             </if>
             <if test='category.equals("poleNum")'>
-                WHERE telegraph_pole_num LIKE CONCAT('%', #{keyword}, '%')
+                WHERE management_num = #{keyword}
             </if>
         </if>
     </sql>

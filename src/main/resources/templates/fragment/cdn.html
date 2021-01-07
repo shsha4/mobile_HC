@@ -14,4 +14,20 @@
         <link rel="icon" href="/images/favicon/favicon.ico" type="image/x-icon">
     </th:block>
 </head>
+<body>
+<th:block th:fragment="fragment-login">
+    <div class="modal fade" id="login" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">LOGIN</div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="user" placeholder="User ID" style="width: 75%;"><br>
+                    <input type="password" class="form-control" id="password" placeholder="User PassWord" style="width: 75%;">
+                    <button class="btn btn-primary" id="loginBtn" style="position: absolute; top:12%; height:75%; right:10px;">로그인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
 </html>

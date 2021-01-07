@@ -7,6 +7,7 @@
     <th:block th:replace="fragment/cdn :: fragment-cdn"></th:block>
 </head>
 <body>
+<th:block th:replace="fragment/cdn :: fragment-login"></th:block>
     <div id="content">
         <table class="table table-bordered" style="margin-bottom: 5px;">
             <thead>
@@ -31,6 +32,11 @@
                 <tr>
                     <td style="font-weight: bold;">좌표</td>
                     <td th:text="${lamp.latitude} + ', ' + ${lamp.longitude}" style="color: #0189F3;"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="map" style="width: 100%; height: 250px;"></div>
+                    </td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold;">타입</td>
@@ -75,5 +81,25 @@
             </a>
         </div>
     </div>
+<script th:inline="javascript">
+    let user = /*[[ ${session.user} ]]*/ "";
+    let lamp = /*[[ ${lamp} ]]*/ "";
+
+    let mapContainer = document.getElementById('map'),
+        mapOption = {
+            center : new kakao.maps.LatLng(lamp.latitude, lamp.longitude)
+        };
+
+    let map = new kakao.maps.Map(mapContainer, mapOption);
+    let markerImage = new kakao.maps.MarkerImage('/images/lamp.png', new kakao.maps.Size(20, 20));
+    let marker = new kakao.maps.Marker({
+       position: map.getCenter(),
+       image : markerImage
+    });
+
+    marker.setMap(map);
+
+</script>
+<script src="/js/loginAction.js"></script>
 </body>
 </html>
